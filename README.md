@@ -6,11 +6,11 @@ Set of recipes for useful Kotlin/JS coroutines functions
 Function used to create async coroutine:
 
 ```kotlin
-fun async(block: suspend () -> Unit) {
+fun launch(block: suspend () -> Unit) {
     block.startCoroutine(object : Continuation<Unit> {
         override val context = EmptyCoroutineContext
         override fun resume(value: Unit) = Unit
-        override fun resumeWithException(exception: Throwable) = Unit
+        override fun resumeWithException(exception: Throwable) = console.error(exception)
     })
 }
 ```
@@ -44,5 +44,6 @@ suspend fun delay(time: Long): Unit = suspendCoroutine { continuation ->
     }, time)
 }
 
+// We need top level setTimeout for node.js only. For browser usage you can use `kotlin.browser.window.setTimeout` from stdlib. But top level setTimeout works for browser as well
 external fun setTimeout(function: () -> Unit, delay: Long)
 ```
