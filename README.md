@@ -28,7 +28,6 @@ Function used to delay coroutine excecution for some time. (Proposed by Andrey M
 ```kotlin
 suspend fun delay(time: Long): Unit = suspendCoroutine { continuation ->
     setTimeout({
-        println("timeout")
         continuation.resume(Unit)
     }, time)
 }
