@@ -3,7 +3,19 @@ Set of recipes for useful Kotlin/JS coroutines functions
 
 ## Async
 
-Function used to create async coroutine context that is returning `Promise`.
+Function used to create async coroutine:
+
+```kotlin
+fun async(block: suspend () -> Unit) {
+    block.startCoroutine(object : Continuation<Unit> {
+        override val context = EmptyCoroutineContext
+        override fun resume(value: Unit) = Unit
+        override fun resumeWithException(exception: Throwable) = Unit
+    })
+}
+```
+
+Function used to create async coroutine that is returning `Promise`.
 
 ```kotlin
 fun <T> async(x: suspend () -> T): Promise<T> = Promise { resolve, reject ->
